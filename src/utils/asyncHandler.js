@@ -4,7 +4,6 @@ const asyncHandler = (asyncfunc) => {
     }
 }
 
-
 export default asyncHandler;
 
 

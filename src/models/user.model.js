@@ -30,13 +30,13 @@ const userschema = new mongoose.Schema(
             type : String, //cloudinary url
             required : true
         },
-        cover_image : {
+        coverimage : {
             type : String   //cloudinary url
         },
-        watchHistory : {
+        watchHistory : [{
             type : mongoose.Schema.Types.ObjectId,
             ref : "Video"
-        },
+        }],
         password : {
             type : String,
             required : [true,"password is required"]
@@ -51,9 +51,8 @@ const userschema = new mongoose.Schema(
 
 
 userschema.pre("save", async function(next) {
-    if(!this.isModified("password")) return next();
-    this.password = bcrypt.hash(this.password, 10 )  //10 means 10 time hashing salt
-    next();
+    if(!this.isModified("password")) return ;
+    this.password = await bcrypt.hash(this.password, 10 );  //10 means 10 time hashing salt
 })
 
 userschema.methods.isPasswordCorrect = async function (password){
